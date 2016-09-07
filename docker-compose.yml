@@ -8,13 +8,13 @@ services:
         build:
             context: ./workspace
             args:
-                - INSTALL_XDEBUG=false
+                - INSTALL_XDEBUG=true
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=false
+                - INSTALL_NODE=true
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
-                - INSTALL_WORKSPACE_SSH=false
+                - INSTALL_WORKSPACE_SSH=true
                 - PUID=1000
                 - PGID=1000
                 - NODE_VERSION=stable
@@ -23,8 +23,8 @@ services:
         extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
             - "dockerhost:10.0.75.1"
-        ports:
-           - "22:22"
+#        ports:
+#           - "2222:22"
         tty: true
 
 ### PHP-FPM Container #######################################
@@ -33,7 +33,7 @@ services:
         build:
             context: ./php-fpm
             args:
-                - INSTALL_XDEBUG=false
+                - INSTALL_XDEBUG=true
                 - INSTALL_MONGO=false
                 - INSTALL_ZIP_ARCHIVE=false
                 - INSTALL_MEMCACHED=false
@@ -46,9 +46,9 @@ services:
             - "9000"
         links:
             - workspace
-        extra_hosts:
+#        extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+#            - "dockerhost:10.0.75.1"
         environment:
             # IMPORTANT: Set the Remote Interpreter entry matching name to `laravel`
             - PHP_IDE_CONFIG="serverName=laravel"
@@ -64,9 +64,9 @@ services:
             - volumes_source
         volumes:
             - ./logs/nginx/:/var/log/nginx
-        ports:
-            - "80:80"
-            - "443:443"
+#        ports:
+#            - "80:80"
+#            - "443:443"
         links:
             - php-fpm
 
@@ -104,8 +104,8 @@ services:
         build: ./mysql
         volumes_from:
             - volumes_data
-        ports:
-            - "3306:3306"
+#        ports:
+#            - "3306:3306"
         environment:
             MYSQL_DATABASE: homestead
             MYSQL_USER: homestead
@@ -181,7 +181,7 @@ services:
             - "3001:3001"
             - "3002:3002"
             - "3003:3003"
-            
+
 
 ### Memcached Container #####################################
 
@@ -255,8 +255,8 @@ services:
             MYSQL_ROOT_PASSWORD: root
         volumes_from:
             - volumes_data
-        ports:
-            - "8080:80"
+#        ports:
+#            - "8080:80"
         links:
             # for mysql container
             - "mysql:db"
