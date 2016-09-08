@@ -131,8 +131,8 @@ services:
         build: ./mariadb
         volumes_from:
             - volumes_data
-        ports:
-            - "3306:3306"
+#        ports:
+#            - "3306:3306"
         environment:
             MYSQL_DATABASE: homestead
             MYSQL_USER: homestead
@@ -289,6 +289,7 @@ services:
     volumes_source:
         image: tianon/true
         volumes:
+#            - /var/www/laravel
             - ../:/var/www/laravel
             # Demonstration of how to mount multiple sites
             # - ../../site_a/:/var/www/site_a
