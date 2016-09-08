@@ -59,11 +59,22 @@ COPY ./xdebug.ini /etc/php/7.0/cli/conf.d/xdebug.ini
 
 
 #####################################
+# Non-Root User:
+#####################################
+
+# Add a non-root user to prevent files being created with root permissions on host machine.
+ARG PUID=1000
+ARG PGID=1000
+RUN groupadd -g $PGID laradock && \
+    useradd -u $PUID -g laradock -m laradock
+
+#####################################
 # ssh:
 #####################################
 
 # Check if ssh needs to be installed
 # See: https://github.com/phusion/baseimage-docker#enabling_ssh
+# hhj - add authorized keys to laradock as well:
 ADD insecure_id_rsa /tmp/id_rsa
 ADD insecure_id_rsa.pub /tmp/id_rsa.pub
 ARG INSTALL_WORKSPACE_SSH=true
@@ -73,9 +84,17 @@ RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
     cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys \
         && cat /tmp/id_rsa.pub >> /root/.ssh/id_rsa.pub \
         && cat /tmp/id_rsa >> /root/.ssh/id_rsa \
-        && rm -f /tmp/id_rsa* \
         && chmod 644 /root/.ssh/authorized_keys /root/.ssh/id_rsa.pub \
-    && chmod 400 /root/.ssh/id_rsa \
+        && chmod 400 /root/.ssh/id_rsa \
+        \
+        && mkdir /home/laradock/.ssh \
+        && cat /tmp/id_rsa.pub >> /home/laradock/.ssh/id_rsa.pub \
+        && cat /tmp/id_rsa >> /home/laradock/.ssh/id_rsa \
+        && cat /tmp/id_rsa.pub >> /home/laradock/.ssh/authorized_keys \
+        && chown -R laradock.laradock /home/laradock/.ssh \
+        && chmod 644 /home/laradock/.ssh/authorized_keys /home/laradock/.ssh/id_rsa.pub \
+        && chmod 400 /home/laradock/.ssh/id_rsa \
+        && rm -f /tmp/id_rsa* \
 ;fi
 
 
@@ -92,15 +111,6 @@ RUN if [ ${INSTALL_MONGO} = true ]; then \
     echo "extension=mongodb.so" >> /etc/php/7.0/cli/php.ini \
 ;fi
 
-#####################################
-# Non-Root User:
-#####################################
-
-# Add a non-root user to prevent files being created with root permissions on host machine.
-ARG PUID=1000
-ARG PGID=1000
-RUN groupadd -g $PGID laradock && \
-    useradd -u $PUID -g laradock -m laradock
 
 #####################################
 # Composer:
@@ -162,6 +172,14 @@ RUN if [ ${INSTALL_NODE} = true ]; then \
 RUN if [ ${INSTALL_NODE} = true ]; then \
     echo "" >> ~/.bashrc && \
     echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
+;fi
+
+# hhj - enable node in root:
+USER root
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    echo "" >> ~/.bashrc && \
+    echo 'export NVM_DIR="/home/laradock/.nvm"' >> ~/.bashrc && \
     echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
 ;fi
 
