@@ -9,10 +9,10 @@ services:
             context: ./workspace
             args:
                 - INSTALL_XDEBUG=true
-                - INSTALL_SOAP=true
-                - INSTALL_SNMP=true
+                - INSTALL_SOAP=false
+                - INSTALL_SNMP=false
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=false
+                - INSTALL_NODE=true
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
@@ -22,14 +22,12 @@ services:
                 - NODE_VERSION=stable
         volumes_from:
             - volumes_source
-        extra_hosts:
+#        extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+#            - "dockerhost:10.0.75.1"
 #        ports:
 #           - "2222:22"
         tty: true
-        environment:
-          - APP_ENV='testing-unit'
 
 ### PHP-FPM Container #######################################
 
