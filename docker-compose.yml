@@ -9,8 +9,10 @@ services:
             context: ./workspace
             args:
                 - INSTALL_XDEBUG=true
+                - INSTALL_SOAP=true
+                - INSTALL_SNMP=true
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=true
+                - INSTALL_NODE=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
@@ -26,6 +28,8 @@ services:
 #        ports:
 #           - "2222:22"
         tty: true
+        environment:
+          - APP_ENV='testing-unit'
 
 ### PHP-FPM Container #######################################
 
@@ -107,8 +111,8 @@ services:
 #        ports:
 #            - "3306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
+            MYSQL_DATABASE: dohlestr-testing
+            MYSQL_USER: testuser
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -134,8 +138,8 @@ services:
 #        ports:
 #            - "3306:3306"
         environment:
-            MYSQL_DATABASE: homestead
-            MYSQL_USER: homestead
+            MYSQL_DATABASE: dohlestr-testing
+            MYSQL_USER: testuser
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -189,8 +193,8 @@ services:
         build: ./memcached
         volumes_from:
             - volumes_data
-        ports:
-            - "11211:11211"
+#        ports:
+#            - "11211:11211"
         links:
             - php-fpm
 
@@ -259,9 +263,9 @@ services:
 #            - "8080:80"
         links:
             # for mysql container
-            - "mysql:db"
+#            - "mysql:db"
             # for mariadb container
-            # - "mariadb:db"
+             - "mariadb:db"
 
 ### pgAdmin Container ##################################
 

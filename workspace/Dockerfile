@@ -59,6 +59,31 @@ COPY ./xdebug.ini /etc/php/7.0/cli/conf.d/xdebug.ini
 
 
 #####################################
+# hhj - php SOAP extension
+#####################################
+
+# Check if xDebug needs to be installed
+ARG INSTALL_SOAP=true
+ENV INSTALL_SOAP ${INSTALL_SOAP}
+RUN if [ ${INSTALL_SOAP} = true ]; then \
+    apt-get update && \
+    apt-get install -y --force-yes php7.0-soap \
+;fi
+
+#####################################
+# hhj - php SNMP extension
+#####################################
+
+# Check if xDebug needs to be installed
+ARG INSTALL_SNMP=true
+ENV INSTALL_SNMP ${INSTALL_SNMP}
+RUN if [ ${INSTALL_SNMP} = true ]; then \
+    apt-add-repository 'deb http://archive.ubuntu.com/ubuntu/ xenial multiverse' && \
+    apt-get update && \
+    apt-get install -y --force-yes php7.0-snmp snmp-mibs-downloader \
+;fi
+
+#####################################
 # Non-Root User:
 #####################################
 
