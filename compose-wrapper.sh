@@ -44,6 +44,8 @@ case $1 in
 		compose_status
 		;;
 	*)
-        echo "Usage:"
-        echo "  $0 start|up|stop|down|status"
+		echo running: ${DOCKER_COMPOSE} $@
+		${DOCKER_COMPOSE} $@
+#        echo "Usage:"
+#        echo "  $0 start|up|stop|down|status"
 esac
