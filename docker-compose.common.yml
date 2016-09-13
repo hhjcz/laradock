@@ -12,7 +12,7 @@ services:
                 - INSTALL_SOAP=false
                 - INSTALL_SNMP=false
                 - INSTALL_MONGO=false
-                - INSTALL_NODE=true
+                - INSTALL_NODE=false
                 - INSTALL_DRUSH=false
                 - INSTALL_AEROSPIKE_EXTENSION=false
                 - COMPOSER_GLOBAL_INSTALL=false
