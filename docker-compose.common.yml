@@ -28,6 +28,8 @@ services:
 #        ports:
 #           - "2222:22"
         tty: true
+#        environment:
+#          - APP_ENV='testing-unit'
 
 ### PHP-FPM Container #######################################
 
@@ -109,8 +111,8 @@ services:
 #        ports:
 #            - "3306:3306"
         environment:
-            MYSQL_DATABASE: dohlestr-testing
-            MYSQL_USER: testuser
+            MYSQL_DATABASE: laradock
+            MYSQL_USER: laradock
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -135,9 +137,13 @@ services:
             - volumes_data
 #        ports:
 #            - "3306:3306"
+        networks:
+          default:
+            aliases:
+              - mysql
         environment:
-            MYSQL_DATABASE: dohlestr-testing
-            MYSQL_USER: testuser
+            MYSQL_DATABASE: laradock
+            MYSQL_USER: laradock
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -292,7 +298,7 @@ services:
         image: tianon/true
         volumes:
 #            - /var/www/laravel
-            - ../:/var/www/laravel
+            - ../:/var/www/app
             # Demonstration of how to mount multiple sites
             # - ../../site_a/:/var/www/site_a
             # - ../../site_b/:/var/www/site_b

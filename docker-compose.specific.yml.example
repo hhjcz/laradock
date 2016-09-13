@@ -1,0 +1,21 @@
+version: '2'
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.19.0.0/16
+
+services:
+    workspace:
+        build:
+            context: ./workspace
+            args:
+                - INSTALL_SOAP=false
+                - INSTALL_SNMP=false
+    mariadb:
+        environment:
+            MYSQL_DATABASE: mvchriste
+            MYSQL_USER: laradock
+            MYSQL_PASSWORD: secret
+            MYSQL_ROOT_PASSWORD: root
