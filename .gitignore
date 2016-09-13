@@ -2,4 +2,4 @@
 /logs
 /data
 .env
-docker-compose-specific.yml
+docker-compose.specific.yml
