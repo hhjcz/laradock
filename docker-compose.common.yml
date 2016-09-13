@@ -137,6 +137,10 @@ services:
             - volumes_data
 #        ports:
 #            - "3306:3306"
+        networks:
+          default:
+            aliases:
+              - mysql
         environment:
             MYSQL_DATABASE: laradock
             MYSQL_USER: laradock
