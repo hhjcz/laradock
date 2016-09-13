@@ -9,8 +9,8 @@ services:
             context: ./workspace
             args:
                 - INSTALL_XDEBUG=true
-                - INSTALL_SOAP=true
-                - INSTALL_SNMP=true
+                - INSTALL_SOAP=false
+                - INSTALL_SNMP=false
                 - INSTALL_MONGO=false
                 - INSTALL_NODE=false
                 - INSTALL_DRUSH=false
@@ -22,14 +22,14 @@ services:
                 - NODE_VERSION=stable
         volumes_from:
             - volumes_source
-        extra_hosts:
+#        extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
-            - "dockerhost:10.0.75.1"
+#            - "dockerhost:10.0.75.1"
 #        ports:
 #           - "2222:22"
         tty: true
-        environment:
-          - APP_ENV='testing-unit'
+#        environment:
+#          - APP_ENV='testing-unit'
 
 ### PHP-FPM Container #######################################
 
@@ -111,8 +111,8 @@ services:
 #        ports:
 #            - "3306:3306"
         environment:
-            MYSQL_DATABASE: dohlestr-testing
-            MYSQL_USER: testuser
+            MYSQL_DATABASE: laradock
+            MYSQL_USER: laradock
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -138,8 +138,8 @@ services:
 #        ports:
 #            - "3306:3306"
         environment:
-            MYSQL_DATABASE: dohlestr-testing
-            MYSQL_USER: testuser
+            MYSQL_DATABASE: laradock
+            MYSQL_USER: laradock
             MYSQL_PASSWORD: secret
             MYSQL_ROOT_PASSWORD: root
 
@@ -294,7 +294,7 @@ services:
         image: tianon/true
         volumes:
 #            - /var/www/laravel
-            - ../:/var/www/laravel
+            - ../:/var/www/app
             # Demonstration of how to mount multiple sites
             # - ../../site_a/:/var/www/site_a
             # - ../../site_b/:/var/www/site_b
