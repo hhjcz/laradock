@@ -22,3 +22,29 @@ services:
         networks:
             default:
               ipv4_address: 172.20.0.66
+
+    workspace_node_dev:
+        environment:
+          - NODE_ENV=development
+          - SERVER_BASE_URL=http://someurl/api
+          - NO_SERVER_REACT=true
+        networks:
+          default:
+            ipv4_address: 172.66.0.180
+
+    workspace_node_prod:
+        environment:
+          - NODE_ENV=production
+          - SERVER_BASE_URL=http://someurl/api
+          - NO_SERVER_REACT=true
+        networks:
+          default:
+            ipv4_address: 172.66.0.183
+
+    workspace_node_stage:
+        extends: workspace_node_prod
+        environment:
+          - NODE_ENV=staging
+        networks:
+          default:
+            ipv4_address: 172.66.0.182
