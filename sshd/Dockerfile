@@ -63,5 +63,7 @@ USER root
 RUN apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+EXPOSE 22
+
 # Set default work directory
 WORKDIR /var/www/app
