@@ -22,6 +22,8 @@ services:
                 - NODE_VERSION=stable
         volumes_from:
             - volumes_source
+        expose:
+            - 22
 #        extra_hosts:
             # IMPORTANT: Replace with your Docker Host IP (will be appended to /etc/hosts)
 #            - "dockerhost:10.0.75.1"
