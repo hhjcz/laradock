@@ -1,3 +1,7 @@
+#
+# copy to ../docker-composer.specific.yml
+# hhj@centrum.cz
+#
 version: '2'
 
 networks:
@@ -13,9 +17,3 @@ services:
             args:
                 - INSTALL_SOAP=false
                 - INSTALL_SNMP=false
-    mariadb:
-        environment:
-            MYSQL_DATABASE: mvchriste
-            MYSQL_USER: laradock
-            MYSQL_PASSWORD: secret
-            MYSQL_ROOT_PASSWORD: root

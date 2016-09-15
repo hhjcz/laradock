@@ -6,8 +6,20 @@ cd "$(dirname "$0")"
 # if not defined, set COMPOSE_PROJECT_NAME to parent directory name:
 COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-"$(dirname "$(pwd)" | xargs basename)"}"
 
+SPECIFIC_CONFIG_FILE="../docker-compose.specific.yml"
+SECRET_CONFIG_FILE="../docker-compose.secret.yml"
+
+# detect config files
+if [ -f $SPECIFIC_CONFIG_FILE ]; then
+	SPECIFIC_CONFIG="-f $SPECIFIC_CONFIG_FILE"
+fi;
+if [ -f $SECRET_CONFIG_FILE ]; then
+	SECRET_CONFIG="-f $SECRET_CONFIG_FILE"
+fi;
+
 # main docker-compose executable:
-DOCKER_COMPOSE="docker-compose -p ${COMPOSE_PROJECT_NAME} -f docker-compose.common.yml -f docker-compose.specific.yml"
+DOCKER_COMPOSE="docker-compose -p ${COMPOSE_PROJECT_NAME} -f docker-compose.common.yml ${SPECIFIC_CONFIG} ${SECRET_CONFIG}"
+echo "Running $DOCKER_COMPOSE"
 
 compose_start ()
 {
