@@ -5,11 +5,8 @@
 #
 # hhj - allows to ssh to workspace (uses sources volumes)
 #
-# To change its version, see the available Tags on the Docker Hub:
-#    https://hub.docker.com/r/laradock/workspace/tags/
-#
 
-FROM laradock/workspace:1.1
+FROM phusion/baseimage:latest
 
 MAINTAINER Jan Haering <hhj@centrum.cz>
 
