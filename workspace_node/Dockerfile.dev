@@ -16,5 +16,7 @@ ENV NPM_CONFIG_PRODUCTION ${NPM_CONFIG_PRODUCTION}
 #ADD . /var/www/app
 #RUN npm run build
 
+EXPOSE 80
+
 CMD [ "npm", "start" ]
 
