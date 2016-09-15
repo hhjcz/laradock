@@ -31,6 +31,36 @@ services:
 #        environment:
 #          - APP_ENV='testing-unit'
 
+### Node Container ###########################
+
+    workspace_node_dev:
+        build:
+            context: ..
+            dockerfile: docker/workspace_node/Dockerfile.dev
+#            args:
+#                - NODE_VERSION=stable
+        volumes_from:
+            - volumes_source
+        tty: true
+
+    workspace_node_prod:
+        build:
+          context: ..
+          dockerfile: docker/workspace_node/Dockerfile.prod
+        tty: true
+
+###  SSHD ###########################
+
+    sshd:
+        build:
+            context: ./sshd
+            args:
+                - PUID=1000
+                - PGID=1000
+        volumes_from:
+            - volumes_source
+        tty: true
+
 ### PHP-FPM Container #######################################
 
     php-fpm:
