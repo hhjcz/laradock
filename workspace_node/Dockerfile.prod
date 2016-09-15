@@ -6,8 +6,11 @@ WORKDIR /var/www/app
 
 ARG NODE_ENV=production
 ARG NPM_CONFIG_PRODUCTION=true
+ARG PORT=80
+
 ENV NODE_ENV ${NODE_ENV}
 ENV NPM_CONFIG_PRODUCTION ${NPM_CONFIG_PRODUCTION}
+ENV PORT ${PORT}
 
 ADD package.json /var/www/app
 RUN npm install
@@ -15,6 +18,6 @@ ADD . /var/www/app
 RUN npm run build
 RUN ls /var/www/app/dist
 
-EXPOSE 80
+EXPOSE ${PORT}
 
 CMD [ "npm", "start" ]

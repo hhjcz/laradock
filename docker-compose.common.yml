@@ -31,23 +31,27 @@ services:
 #        environment:
 #          - APP_ENV='testing-unit'
 
-### Node Container ###########################
+### Node (express, webpack, ...) Containers ###########################
 
-    workspace_node_dev:
+    workspace_node:
         build:
             context: ..
-            dockerfile: docker/workspace_node/Dockerfile.dev
-#            args:
-#                - NODE_VERSION=stable
-        volumes_from:
-            - volumes_source
+            args:
+              - PORT=80
+              # - NODE_VERSION=stable
         tty: true
 
-    workspace_node_prod:
+    workspace_node_dev:
+        extends: workspace_node
         build:
-          context: ..
+            dockerfile: docker/workspace_node/Dockerfile.dev
+        volumes_from:
+            - volumes_source
+
+    workspace_node_prod:
+        extends: workspace_node
+        build:
           dockerfile: docker/workspace_node/Dockerfile.prod
-        tty: true
 
 ###  SSHD ###########################
 

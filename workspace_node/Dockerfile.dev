@@ -6,9 +6,11 @@ WORKDIR /var/www/app
 
 ARG NODE_ENV=development
 ARG NPM_CONFIG_PRODUCTION=false
+ARG PORT=80
 
 ENV NODE_ENV ${NODE_ENV}
 ENV NPM_CONFIG_PRODUCTION ${NPM_CONFIG_PRODUCTION}
+ENV PORT ${PORT}
 
 # no pre build in dev mode
 #ADD package.json /var/www/app
@@ -16,7 +18,7 @@ ENV NPM_CONFIG_PRODUCTION ${NPM_CONFIG_PRODUCTION}
 #ADD . /var/www/app
 #RUN npm run build
 
-EXPOSE 80
+EXPOSE ${PORT}
 
 CMD [ "npm", "start" ]
 
