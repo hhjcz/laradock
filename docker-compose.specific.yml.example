@@ -17,3 +17,8 @@ services:
             args:
                 - INSTALL_SOAP=false
                 - INSTALL_SNMP=false
+        environment:
+          - PORT=80
+        networks:
+            default:
+              ipv4_address: 172.20.0.66
