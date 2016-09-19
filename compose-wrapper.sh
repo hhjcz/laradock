@@ -1,13 +1,25 @@
 #!/bin/bash
 # hhj, 13.9.2016
 
-cd "$(dirname "$0")"
+case $1 in
+	hot|dev|stage|prod)
+		PHASE=$1
+		shift
+		CONFIG_DIR="$(realpath .docker/${PHASE})"
+		;;
+	*)
+		PHASE="dev"
+		CONFIG_DIR="$(realpath .)"
+esac
+
+export CONFIG_DIR
 
 # if not defined, set COMPOSE_PROJECT_NAME to parent directory name:
-COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-"$(dirname "$(pwd)" | xargs basename)"}"
+COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-"$(pwd |xargs basename)-${PHASE}"}"
+#COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-"$(dirname "$(pwd)" | xargs basename)"}"
 
-SPECIFIC_CONFIG_FILE="../docker-compose.specific.yml"
-SECRET_CONFIG_FILE="../docker-compose.secret.yml"
+SPECIFIC_CONFIG_FILE="${CONFIG_DIR}/docker-compose.specific.yml"
+SECRET_CONFIG_FILE="${CONFIG_DIR}/docker-compose.secret.yml"
 
 # detect config files
 if [ -f $SPECIFIC_CONFIG_FILE ]; then
@@ -40,6 +52,8 @@ compose_status()
 {
 	${DOCKER_COMPOSE} ps
 }
+
+cd "$(dirname "$0")"
 
 case $1 in
 	up|start|UP|START)
