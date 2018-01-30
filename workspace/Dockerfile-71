@@ -236,6 +236,21 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ;fi
 
 #####################################
+# ZMQ:
+#####################################
+
+# Check if Mongo needs to be installed
+ARG INSTALL_ZMQ=false
+ENV INSTALL_ZMQ ${INSTALL_ZMQ}
+RUN if [ ${INSTALL_ZMQ} = true ]; then \
+    apt-get install libzmq-dev -y && \
+    # Install the zmq extension
+    pecl -q install zmq-beta && \
+    echo "extension=zmq.so" >> /etc/php/7.1/mods-available/zmq.ini && \
+    ln -s /etc/php/7.1/mods-available/zmq.ini /etc/php/7.1/cli/conf.d/30-zmq.ini \
+;fi
+
+#####################################
 # PHP REDIS EXTENSION FOR PHP 7.1
 #####################################
 

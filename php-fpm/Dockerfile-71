@@ -147,6 +147,19 @@ RUN if [ ${INSTALL_AMQP} = true ]; then \
 ;fi
 
 #####################################
+# ZMQ:
+#####################################
+
+ARG INSTALL_ZMQ=false
+RUN if [ ${INSTALL_ZMQ} = true ]; then \
+    apt-get update && \
+    apt-get install libzmq-dev -y && \
+    # Install the zmq extension
+    pecl install zmq-beta && \
+    docker-php-ext-enable zmq \
+;fi
+
+#####################################
 # ZipArchive:
 #####################################
 
