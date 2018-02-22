@@ -7,3 +7,8 @@ services:
     applications:
       volumes:
         - ${APPLICATION}:/var/www
+        - ${SSH_AUTH_SOCK}:/ssh-agent
+
+    workspace:
+      environment:
+        - SSH_AUTH_SOCK=/ssh-agent
